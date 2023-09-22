@@ -22,6 +22,7 @@ class CreateRentTable extends Migration
             $table->time('time_start');
             $table->time('time_end');
             $table->string('status');
+            $table->string('price');
             $table->foreign('teacher_id')->references('id')->on('teacher');
             $table->foreign('client_id')->references('id')->on('client');
         });

@@ -46,6 +46,10 @@ class HomeController extends Controller
         return response()->json(['error' => 'Los datos ingresados son incorrectos.'], 401);
     }
 
+    /**
+     * Cierra la sesión del usuario
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(){
         // Cierra la sesión del usuario
         Auth::logout();
@@ -82,8 +86,6 @@ class HomeController extends Controller
         $user->email = $credentials['email'];
         $user->password = Hash::make($credentials['password']);
         $user->role = $request->role;
-        $user->action = $request->action;
-        $user->place = $request->place;
         $user->save();
 
         // Inicia sesión con el usuario recién creado
@@ -98,22 +100,8 @@ class HomeController extends Controller
      * @return \Illuminate\View\View
      */
     public function adminPanel(){
-        return view('admin.adminPanel');
+        $admin['section'] = 'adminPanel';
+        return view('admin.adminPanel',['admin' => $admin]);
     }
 
-    /**
-     * Muestra la vista principal del panel Couple
-     * @return \Illuminate\View\View
-     */
-    public function saveTheDatePanel(){
-        return view('couple.saveTheDatePanel');
-    }
-
-    /**
-     * Muestra la vista principal del panel Guest
-     * @return \Illuminate\View\View
-     */
-    public function guestPanel(){
-        return view('guest.guestPanel');
-    }
 }

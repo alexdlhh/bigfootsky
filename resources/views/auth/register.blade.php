@@ -27,8 +27,7 @@
                     <div class="col s4 input-field">
                         <select id="role">
                             <option value="admin">Administrador</option>
-                            <option value="couple">Novio</option>
-                            <option value="guest">Invitado</option>
+                            <option value="couple">Profesor</option>
                         </select>
                     </div>
                     <div class="col s6 input-field">
@@ -79,12 +78,6 @@
                             if(data == 'admin'){
                                 alert('Usuario registrado correctamente');
                                 window.location.href = '{{ route('adminPanel') }}';
-                            }else if(data == 'couple'){
-                                alert('Usuario registrado correctamente');
-                                window.location.href = '{{ route('saveTheDatePanel') }}';
-                            }else if(data == 'guest'){
-                                alert('Usuario registrado correctamente');
-                                window.location.href = '{{ route('guestPanel') }}';
                             }
                         }
                     });

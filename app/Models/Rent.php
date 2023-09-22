@@ -14,7 +14,8 @@ class Rent extends Model
         'date',
         'time_start',
         'time_end',
-        'status'
+        'status',
+        'price'
     ];
 
     protected $hidden = [];

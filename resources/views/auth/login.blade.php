@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>Register</title>
+    <title>Inicio de sesión</title>
 @endsection
 
 @section('style')
@@ -53,10 +53,6 @@
                         if(data.success){
                             if(data.success == 'admin'){
                                 window.location.href = '{{ route('adminPanel') }}';
-                            }else if(data.success == 'couple'){
-                                window.location.href = '{{ route('saveTheDatePanel') }}';
-                            }else if(data.success == 'guest'){
-                                window.location.href = '{{ route('guestPanel') }}';
                             }
                         }else{
                             alert(data.error);

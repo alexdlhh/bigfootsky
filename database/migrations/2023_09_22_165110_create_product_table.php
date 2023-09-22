@@ -22,7 +22,7 @@ class CreateProductTable extends Migration
             $table->integer('health');
             $table->bigInteger('category_id')->unsigned();
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('product_category');
+            $table->foreign('category_id')->references('id')->on('category');
         });
     }
 
