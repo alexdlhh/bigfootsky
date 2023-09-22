@@ -7,8 +7,8 @@ services:
             uid: 1000
           context: ./
           dockerfile: ./docker-compose/php-fpm/Dockerfile
-      image: web-front-docker
-      container_name: web-front
+      image: web-front-docker-bfs
+      container_name: web-front-bfs
       restart: unless-stopped
       working_dir: /var/www/
       volumes:
@@ -17,7 +17,7 @@ services:
           - web-ui
     nginx:
       image: nginx:alpine
-      container_name: web-front-nginx
+      container_name: web-front-nginx-bfs
       restart: unless-stopped
       ports:
           - 8011:80
@@ -38,7 +38,7 @@ services:
           MYSQL_ROOT_PASSWORD: 3fsqdrifj6
           MYSQL_USER: alex
           MYSQL_PASSWORD: 3fsqdrifj6
-          MYSQL_DATABASE: titila
+          MYSQL_DATABASE: bigfootsky
 
 
 networks:
