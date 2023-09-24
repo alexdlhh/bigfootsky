@@ -75,7 +75,7 @@
                     </thead>
                     <tbody>
                         @if(!empty($products))
-                            @foreach($products as $product)
+                            @foreach($products as $row => $product)
                                 <tr>
                                     <td>{{$product->name}}</td>
                                     <td>{{$product->size}}</td>
@@ -125,6 +125,38 @@
                     });
                 }
             })
+
+            $('#size_filter').change(function(){
+                var size = $(this).val();
+                var quality = $('#quality_filter').val();
+                var status = $('#status_filter').val();
+                var category = $('#category_filter').val();
+                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+            });
+
+            $('#quality_filter').change(function(){
+                var size = $('#size_filter').val();
+                var quality = $(this).val();
+                var status = $('#status_filter').val();
+                var category = $('#category_filter').val();
+                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+            });
+
+            $('#status_filter').change(function(){
+                var size = $('#size_filter').val();
+                var quality = $('#quality_filter').val();
+                var status = $(this).val();
+                var category = $('#category_filter').val();
+                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+            });
+
+            $('#category_filter').change(function(){
+                var size = $('#size_filter').val();
+                var quality = $('#quality_filter').val();
+                var status = $('#status_filter').val();
+                var category = $(this).val();
+                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+            });
         });        
     </script>
 @endsection

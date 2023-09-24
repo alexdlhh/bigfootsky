@@ -12,6 +12,7 @@ Route::post('/do_register', [HomeController::class, 'do_register'])->name('do_re
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/adminPanel', [HomeController::class, 'adminPanel'])->name('adminPanel');
-    Route::get('/products', [ProductController::class, 'index'])->name('products');
+    Route::get('/products/{category?}/{status?}/{size?}/{quality?}', [ProductController::class, 'index'])->name('products');
     Route::get('/productEdit/{id}', [ProductController::class, 'create'])->name('productEdit');
+    Route::post('/productSave', [ProductController::class, 'save'])->name('productSave');
 });

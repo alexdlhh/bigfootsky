@@ -27,61 +27,37 @@ class ProductController extends Controller
      * @param int quality
      * @return \Illuminate\View\View
      */
-    public function index($category = 0, $status = 0, $size = 0, $quality = 0){
-        $products = Product::where('id', '>', 0);
-
-        // Categoría
-        if ($category != 0) {
-            $products = $products->where('category_id', $category);
-        } else {
-            $products = $products->whereNull('category_id');
+    public function index($category = null, $status = null, $size = null, $quality = null){
+        if($category != null){
+            $products = Product::where('category_id', $category);
+        }
+        if($status != null){
+            if($products == null){
+                $products = Product::where('status', $status);
+            }else{
+                $products = $products->where('status', $status);
+            }
+        }
+        if($size != null){
+            if($products == null){
+                $products = Product::where('size', $size);
+            }else{
+                $products = $products->where('size', $size);
+            }
+        }
+        if($quality != null){
+            if($products == null){
+                $products = Product::where('quality', $quality);
+            }else{
+                $products = $products->where('quality', $quality);
+            }
         }
 
-        // Estado
-        if ($status != 0) {
-            $products = $products->where('status', $status);
-        } else {
-            $products = $products->whereNull('status');
+        if(empty($products)){
+            $products = Product::all();
+        }else{
+            $products = $products->get();
         }
-
-        // Tamaño
-        if ($size != 0) {
-            $products = $products->where('size', $size);
-        } else {
-            $products = $products->whereNull('size');
-        }
-
-        // Calidad
-        if ($quality != 0) {
-            $products = $products->where('quality', $quality);
-        } else {
-            $products = $products->whereNull('quality');
-        }
-
-        // Combinaciones
-        $combinations = array();
-
-        if ($category != 0) {
-            $combinations[] = 'category_id';
-        }
-
-        if ($status != 0) {
-            $combinations[] = 'status';
-        }
-
-        if ($size != 0) {
-            $combinations[] = 'size';
-        }
-
-        if ($quality != 0) {
-            $combinations[] = 'quality';
-        }
-
-        foreach ($combinations as $combination) {
-            $products = $products->orWhereNotNull($combination);
-        }
-
-        $products = $products->get();
 
         $categories = Category::all();
         $admin['section'] = 'products';
@@ -117,13 +93,14 @@ class ProductController extends Controller
                 $product = new Product();
             }
             $product->name = $request->name;
-            $product->description = $request->description;
             $product->category_id = $request->category;
-            $product->price = $request->price;
+            $product->size = $request->size;
+            $product->quality = $request->quality;
+            $product->health = $request->health;
             $product->status = $request->status;
             $product->save();
         }catch(\Exception $e){
-            return response()->json(['success' => false, 'message' => 'Error al guardar el producto']);
+            return response()->json(['success' => false, 'message' => 'Error al guardar el producto: '.$e->getMessage()]);
         }
         return response()->json(['success' => true, 'message' => 'Producto guardado correctamente']);
     }
@@ -138,7 +115,7 @@ class ProductController extends Controller
             $product = Product::find($id);
             $product->delete();
         }catch(\Exception $e){
-            return response()->json(['success' => false, 'message' => 'Error al eliminar el producto']);
+            return response()->json(['success' => false, 'message' => 'Error al eliminar el producto: '.$e->getMessage()]);
         }
         return response()->json(['success' => true, 'message' => 'Producto eliminado correctamente']);
     }

@@ -22,30 +22,18 @@
                     <select id="category_product">
                         @if(!empty($categories))
                             @foreach($categories as $_category)
-                                <option value="{{$_category->id}}" {{$_category->id == $product['category'] ? 'selected' : ''}}>{{$_category->name}}</option>
+                                <option value="{{$_category->id}}" {{!empty($product) && $_category->id == $product['category'] ? 'selected' : ''}}>{{$_category->name}}</option>
                             @endforeach
                         @endif
                     </select>     
                     <label for="category_product">Categoría</label> 
                 </div>
                 <div class="col s3 input-field">
-                    <select id="size_product">
-                        @if(!empty($sizes))
-                            @foreach($sizes as $_size)
-                                <option value="{{$_size->size}}" {{$_size->size == $size ? 'selected' : ''}}>{{$_size->size}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                    <label for="size_product">Tallas</label>
+                    <input type="text" id="size_product" value="{{!empty($product['size'])?$product['size']:''}}">
+                    <label for="size_product">Talla</label>
                 </div>
                 <div class="col s3 input-field">
-                    <select id="quality_product">
-                        @if(!empty($qualities))
-                            @foreach($qualities as $_quality)
-                                <option value="{{$_quality->quality}}" {{$_quality->quality == $quality ? 'selected' : ''}}>{{$_quality->quality}}</option>
-                            @endforeach
-                        @endif
-                    </select>
+                    <input type="text" id="quality_product" value="{{!empty($product['quality'])?$product['quality']:''}}">
                     <label for="quality_product">Gama</label>
                 </div>
                 <div class="col s3 input-field">
@@ -71,11 +59,8 @@
                     </select>
                     <label for="health_product">Integridad</label>
                 </div>
-                <div class="col s12">
-                    <textarea id="descripcion_product">{{$city['descripcion'] ?? ''}}</textarea>
-                </div>
                 <div class="col s12 padding">
-                    <a href="javascript:;" class="btn" id="saveCity">Guardar</a>
+                    <a href="javascript:;" class="btn" id="saveProduct">Guardar</a>
                 </div>
             </div>
         </div>
@@ -84,17 +69,43 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.0/tinymce.min.js"></script>
     <script>
-        var textareas = ['#descripcion_product'];
-        $.each(textareas,function(index,textarea){
-            tinymce.init({
-                selector: textarea,
-                plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                toolbar_mode: 'floating',
-            });
-        });
         $(document).ready(function(){
+            $('#saveProduct').click(function(){
+                var id = $('#id').val();
+                var name = $('#name_product').val();
+                var category = $('#category_product').val();
+                var size = $('#size_product').val();
+                var quality = $('#quality_product').val();
+                var status = $('#status_product').val();
+                var health = $('#health_product').val();
+                var data = {
+                    id:id,
+                    name:name,
+                    category:category,
+                    size:size,
+                    quality:quality,
+                    status:status,
+                    health:health,
+                    _token:'{{csrf_token()}}'
+                };
+                $.ajax({
+                    url:'/productSave',
+                    type:'POST',
+                    data:data,
+                    success:function(data){
+                        if(data.success){
+                            M.toast({html: data.message});
+                            setTimeout(function(){
+                                M.toast({html: data.message});
+                                window.location.href = '/products';
+                            },1000);
+                        }else{
+                            M.toast({html: data.message});
+                        }
+                    }
+                });
+            });
         });     
     </script>
 @endsection
