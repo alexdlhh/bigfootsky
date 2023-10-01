@@ -24,7 +24,8 @@
     
     <ul class="sidenav" id="mobile-demo">
         <li><a href="/adminPanel">Dashboard</a></li>
-        <li><a href="/products">Productos</a></li>
+        <li><a href="/clients">Clientes</a></li>
+        <li><a href="/products">Productos</a></li>        
         <li><a href="/rents">Alquiler</a></li>
         <li><a href="/teachers">Profesores</a></li>
         <li><a href="/courses">Cursos</a></li>
@@ -36,6 +37,7 @@
         <div class="col s12 l2 hide-on-med-and-down" id="columna">
             <ul class="collection">
                 <li class="collection-item {{$section=='adminPanel'?'active':''}}"><a href="/adminPanel">Dashboard</a></li>
+                <li class="collection-item {{$section=='clients'?'active':''}}"><a href="/clients">Clientes</a></li>
                 <li class="collection-item {{$section=='products'?'active':''}}"><a href="/products">Productos</a></li>
                 <li class="collection-item {{$section=='rents'?'active':''}}"><a href="/rents">Alquiler</a></li>
                 <li class="collection-item {{$section=='teachers'?'active':''}}"><a href="/teachers">Profesores</a></li>
