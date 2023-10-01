@@ -80,8 +80,8 @@
                                     <td>{{$product->name}}</td>
                                     <td>{{$product->size}}</td>
                                     <td>{{$product->quality}}</td>
-                                    <td>{{$product->status}}</td>
-                                    <td>{{$product->health}}</td>
+                                    <td>{{$statuses[$product->status]}}</td>
+                                    <td>{{$healties[$product->health]}}</td>
                                     <td>
                                         <a href="/productEdit/{{$product->id}}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">edit</i></a>
                                         <a href="#" class="btn-floating btn-small waves-effect waves-light red deleteProduct" data-id="{{$product->id}}"><i class="material-icons">delete</i></a>
@@ -109,7 +109,7 @@
                     var id = $(this).data('id');
                     var token = '{{csrf_token()}}';
                     $.ajax({
-                        url: '/cityDelete/',
+                        url: '/productDelete/',
                         type: 'POST',
                         data: {
                             id: id,
@@ -131,7 +131,7 @@
                 var quality = $('#quality_filter').val();
                 var status = $('#status_filter').val();
                 var category = $('#category_filter').val();
-                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+                window.location.href = '/products/'+category+'/'+status+'/'+size+'/'+quality;
             });
 
             $('#quality_filter').change(function(){
@@ -139,7 +139,7 @@
                 var quality = $(this).val();
                 var status = $('#status_filter').val();
                 var category = $('#category_filter').val();
-                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+                window.location.href = '/products/'+category+'/'+status+'/'+size+'/'+quality;
             });
 
             $('#status_filter').change(function(){
@@ -147,7 +147,7 @@
                 var quality = $('#quality_filter').val();
                 var status = $(this).val();
                 var category = $('#category_filter').val();
-                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+                window.location.href = '/products/'+category+'/'+status+'/'+size+'/'+quality;
             });
 
             $('#category_filter').change(function(){
@@ -155,7 +155,7 @@
                 var quality = $('#quality_filter').val();
                 var status = $('#status_filter').val();
                 var category = $(this).val();
-                window.location.href = '/products/'+size+'/'+quality+'/'+status+'/'+category;
+                window.location.href = '/products/'+category+'/'+status+'/'+size+'/'+quality;
             });
         });        
     </script>

@@ -26,61 +26,69 @@ class RentController extends Controller
      * @param date date
      * @return \Illuminate\View\View
      */
-    public function index($date = null, $product = null, $client = null, $status = null)
+    public function index($date_start = null, $date_end = null, $client = null, $status = null)
     {
-        $rents = Rent::all();
-        $products = Product::all();
         $clients = Client::all();
         $categories = Category::all();
+        $rents = Rent::all();
 
-        // Fecha
-        if ($date != null) {
-            $rents = $rents->where('date', $date);
+        $rent_aux = [];
+
+        foreach($rents as $rent){
+            $find = true;
+            if($date_start != null){
+                if($rent->date_start >= $date_start){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
+            }
+            if($date_end != null){
+                if($rent->date_end <= $date_end){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
+            }
+            if($client != null){
+                if($rent->client_id == $client){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
+            }
+            if($status != null){
+                if($rent->status == $status){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
+            }
+            if($find){
+                $rent_aux[] = $rent;
+            }
         }
 
-        // Producto
-        if ($product != null) {
-            $rents = $rents->where('product_id', $product);
-        }
-
-        // Cliente
-        if ($client != null) {
-            $rents = $rents->where('client_id', $client);
-        }
-
-        // Estado
-        if ($status != null) {
-            $rents = $rents->where('status', $status);
-        }
-
-        // Combinaciones
-        $combinations = array();
-
-        if ($date != null) {
-            $combinations[] = 'date';
-        }
-
-        if ($product != null) {
-            $combinations[] = 'product_id';
-        }
-
-        if ($client != null) {
-            $combinations[] = 'client_id';
-        }
-
-        if ($status != null) {
-            $combinations[] = 'status';
-        }
-
-        foreach ($combinations as $combination) {
-            $rents = $rents->orWhereNotNull($combination);
-        }
-
-        // Filtro adicional para alquileres no devueltos
-        $rents = $rents->where('status', '!=', 'returned');
-        $rents = $rents->get();
-
-        return view('rents.index', compact('rents', 'products', 'clients', 'categories'));
+        $rents = $rent_aux;
+        $healties = [
+            1 => 'Peligroso',
+            2 => 'Muy Malo',
+            3 => 'Malo',
+            4 => 'Desperfecto Grave',
+            5 => 'Desperfecto Leve',
+            6 => 'Regular',
+            7 => 'Usado',
+            8 => 'Bueno',
+            9 => 'Muy Bueno',
+            10 => 'Nuevo'
+        ];
+        $statuses = [
+            1 => 'Libre',
+            2 => 'Alquilado',
+            3 => 'Mantenimiento'
+        ];
+        $admin['section'] = 'rents';
+        return view('admin.listRents', compact('rents', 'clients', 'categories', 'date_start', 'date_end', 'client', 'status', 'healties', 'statuses', 'admin'));
     }
 
 

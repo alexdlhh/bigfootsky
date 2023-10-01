@@ -28,46 +28,76 @@ class ProductController extends Controller
      * @return \Illuminate\View\View
      */
     public function index($category = null, $status = null, $size = null, $quality = null){
-        if($category != null){
-            $products = Product::where('category_id', $category);
-        }
-        if($status != null){
-            if($products == null){
-                $products = Product::where('status', $status);
-            }else{
-                $products = $products->where('status', $status);
+        $products = Product::all();
+
+        $products_aux = [];
+
+        $category= ($category != 0)?$category:null;
+        $status= ($status != 0)?$status:null;
+        $size= !empty($size)?$size:null;
+        $quality= !empty($quality)?$quality:null;
+
+        foreach($products as $product){
+            $find = true;
+            if($category != null){
+                if($product->category_id == $category){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
             }
-        }
-        if($size != null){
-            if($products == null){
-                $products = Product::where('size', $size);
-            }else{
-                $products = $products->where('size', $size);
+            if($status != null){
+                if($product->status == $status){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
             }
-        }
-        if($quality != null){
-            if($products == null){
-                $products = Product::where('quality', $quality);
-            }else{
-                $products = $products->where('quality', $quality);
+            if($size != null){
+                if($product->size == $size){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
+            }
+            if($quality != null){
+                if($product->quality == $quality){
+                    //$find = true;
+                }else{
+                    $find = false;
+                }
+            }
+            if($find){
+                $products_aux[] = $product;
             }
         }
 
-        if(empty($products)){
-            $products = Product::all();
-        }else{
-            $products = $products->get();
-        }
+        $products = $products_aux;
 
         $categories = Category::all();
         $admin['section'] = 'products';
 
         $sizes = Product::select('size')->distinct()->get();
         $qualities = Product::select('quality')->distinct()->get();
-
-        return view('admin.listProducts', compact('products', 'categories', 'admin', 'sizes', 'qualities', 'category', 'status', 'size', 'quality'));
+        $healties = [
+            1 => 'Peligroso',
+            2 => 'Muy Malo',
+            3 => 'Malo',
+            4 => 'Desperfecto Grave',
+            5 => 'Desperfecto Leve',
+            6 => 'Regular',
+            7 => 'Usado',
+            8 => 'Bueno',
+            9 => 'Muy Bueno',
+            10 => 'Nuevo'
+        ];
+        $statuses = [
+            1 => 'Libre',
+            2 => 'Alquilado',
+            3 => 'Mantenimiento'
+        ];
+        return view('admin.listProducts', compact('products', 'categories', 'admin', 'sizes', 'qualities', 'category', 'status', 'size', 'quality', 'healties', 'statuses'));
     }
-
 
     /**
      * view to create or edit a product
@@ -78,7 +108,26 @@ class ProductController extends Controller
         $product = Product::find($id);
         $categories = Category::all();
         $admin['section'] = 'products';
-        return view('admin.editProduct', compact('product', 'categories', 'admin', 'id'));
+        $sizes = Product::select('size')->distinct()->get();
+        $qualities = Product::select('quality')->distinct()->get();
+        $healties = [
+            1 => 'Peligroso',
+            2 => 'Muy Malo',
+            3 => 'Malo',
+            4 => 'Desperfecto Grave',
+            5 => 'Desperfecto Leve',
+            6 => 'Regular',
+            7 => 'Usado',
+            8 => 'Bueno',
+            9 => 'Muy Bueno',
+            10 => 'Nuevo'
+        ];
+        $statuses = [
+            1 => 'Libre',
+            2 => 'Alquilado',
+            3 => 'Mantenimiento'
+        ];
+        return view('admin.editProduct', compact('product', 'categories', 'admin', 'id', 'sizes', 'qualities', 'healties', 'statuses'));
     }
 
     /**
@@ -110,9 +159,9 @@ class ProductController extends Controller
      * @param int id
      * @return Response $response
      */
-    public function delete($id){
+    public function delete(Request $request){
         try{
-            $product = Product::find($id);
+            $product = Product::find($request->id);
             $product->delete();
         }catch(\Exception $e){
             return response()->json(['success' => false, 'message' => 'Error al eliminar el producto: '.$e->getMessage()]);

@@ -9,7 +9,7 @@ class Rent extends Model
     protected $table = 'rent';
 
     protected $fillable = [
-        'teacher_id',
+        'product_id',
         'client_id',
         'date',
         'time_start',
@@ -20,9 +20,9 @@ class Rent extends Model
 
     protected $hidden = [];
 
-    public function teacher()
+    public function product()
     {
-        return $this->belongsTo(Teacher::class, 'teacher_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function client()

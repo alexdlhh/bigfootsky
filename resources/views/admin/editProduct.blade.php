@@ -22,7 +22,7 @@
                     <select id="category_product">
                         @if(!empty($categories))
                             @foreach($categories as $_category)
-                                <option value="{{$_category->id}}" {{!empty($product) && $_category->id == $product['category'] ? 'selected' : ''}}>{{$_category->name}}</option>
+                                <option value="{{$_category->id}}" {{!empty($product) && $_category->id == $product['category_id'] ? 'selected' : ''}}>{{$_category->name}}</option>
                             @endforeach
                         @endif
                     </select>     

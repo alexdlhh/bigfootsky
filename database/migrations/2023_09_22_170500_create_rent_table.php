@@ -16,14 +16,14 @@ class CreateRentTable extends Migration
         Schema::create('rent', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('teacher_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('client_id')->unsigned();
             $table->date('date');
             $table->time('time_start');
             $table->time('time_end');
             $table->string('status');
             $table->string('price');
-            $table->foreign('teacher_id')->references('id')->on('teacher');
+            $table->foreign('product_id')->references('id')->on('product');
             $table->foreign('client_id')->references('id')->on('client');
         });
     }
