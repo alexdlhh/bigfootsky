@@ -29,4 +29,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/rentEdit/{id}', [RentController::class, 'create'])->name('rentEdit');
     Route::post('/rentSave', [RentController::class, 'save'])->name('rentSave');
     Route::post('/rentDelete', [RentController::class, 'delete'])->name('rentDelete');
+
+    Route::get('/teachers/{name?}/{dni?}/{email?}/{phone?}', [TeacherController::class, 'index'])->name('teachers');
+    Route::get('/teacherEdit/{id}', [TeacherController::class, 'create'])->name('teacherEdit');
+    Route::post('/teacherSave', [TeacherController::class, 'save'])->name('teacherSave');
+    Route::post('/teacherDelete', [TeacherController::class, 'delete'])->name('teacherDelete');
+
+    Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 });
