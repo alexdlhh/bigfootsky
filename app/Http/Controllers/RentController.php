@@ -91,5 +91,64 @@ class RentController extends Controller
         return view('admin.listRents', compact('rents', 'clients', 'categories', 'date_start', 'date_end', 'client', 'status', 'healties', 'statuses', 'admin'));
     }
 
+    /**
+     * this function will load the view of the rent
+     * @param int id
+     * @return \Illuminate\View\View
+     */
+    public function create($id = null){
+        $rent = null;
+        $rent = [];
+        $product = [];
+        $client = [];
+        $products = Product::whereNotIn('id', Rent::where('status', 1)->pluck('product_id'))->get();
+        $clients = Client::all();
+        if($id != 0){
+            $rent = Rent::find($id);
+            $product = Product::find($rent->product_id);
+            $client = Client::find($rent->client_id);
+        }
+        $admin['section'] = 'rents';
+        return view('admin.editRent', compact('rent', 'products', 'product', 'clients', 'client', 'admin'));
+    }
 
+    /**
+     * this function will save the rent
+     * @param Request request
+     * @return \Illuminate\Ressponse\JsonResponse
+     */
+    public function save(Request $request){
+        try{
+            $rent = null;
+            if($request->id != 0){
+                $rent = Rent::find($request->id);
+            }else{
+                $rent = new Rent();
+            }
+            $rent->product_id = $request->product_id;
+            $rent->client_id = $request->client_id;
+            $rent->date_start = $request->date_start;
+            $rent->date_end = $request->date_end;
+            $rent->status = $request->status;
+            $rent->save();
+        }catch(\Exception $e){
+            return response()->json(['success' => false, 'message' => 'Error al guardar el alquiler']);
+        }
+        return response()->json(['success' => true, 'message' => 'Alquiler guardado correctamente']);
+    }
+
+    /**
+     * this function will delete the rent
+     * @param Request request
+     * @return \Illuminate\Ressponse\JsonResponse
+     */
+    public function delete(Request $request){
+        try{
+            $rent = Rent::find($request->id);
+            $rent->delete();
+        }catch(\Exception $e){
+            return response()->json(['success' => false, 'message' => 'Error al eliminar el alquiler']);
+        }
+        return response()->json(['success' => true, 'message' => 'Alquiler eliminado correctamente']);
+    }
 }

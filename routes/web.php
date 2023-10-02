@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RentController;
+use App\Http\Controllers\ClientController;
 
 Route::get('/', [HomeController::class, 'login'])->name('login');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
@@ -13,6 +14,11 @@ Route::post('/do_register', [HomeController::class, 'do_register'])->name('do_re
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/adminPanel', [HomeController::class, 'adminPanel'])->name('adminPanel');
+
+    Route::get('/clients/{fullname?}/{dni?}/{email?}/{phone?}', [ClientController::class, 'index'])->name('clients');
+    Route::get('/clientEdit/{id}', [ClientController::class, 'create'])->name('clientEdit');
+    Route::post('/clientSave', [ClientController::class, 'save'])->name('clientSave');
+    Route::post('/clientDelete', [ClientController::class, 'delete'])->name('clientDelete');
 
     Route::get('/products/{category?}/{status?}/{size?}/{quality?}', [ProductController::class, 'index'])->name('products');
     Route::get('/productEdit/{id}', [ProductController::class, 'create'])->name('productEdit');
