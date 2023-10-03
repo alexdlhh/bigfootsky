@@ -35,5 +35,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/teacherSave', [TeacherController::class, 'save'])->name('teacherSave');
     Route::post('/teacherDelete', [TeacherController::class, 'delete'])->name('teacherDelete');
 
+    Route::get('/courses/{name?}/{dni?}/{email?}/{phone?}', [CourseController::class, 'index'])->name('courses');
+    Route::get('/courseEdit/{id}', [CourseController::class, 'create'])->name('courseEdit');
+    Route::post('/courseSave', [CourseController::class, 'save'])->name('courseSave');
+    Route::post('/courseDelete', [CourseController::class, 'delete'])->name('courseDelete');
+
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 });
