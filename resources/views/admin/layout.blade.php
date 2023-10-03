@@ -7,6 +7,7 @@
     @yield('title')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
     @yield('style')
 </head>
 
@@ -17,7 +18,7 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">BigFootSky</a>
+            <a href="#!" class="brand-logo"><img src="https://bigfootski.es/wp-content/uploads/2018/09/Logo-bigfoot-blanco.png" class="responsive-img"></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
     </nav>

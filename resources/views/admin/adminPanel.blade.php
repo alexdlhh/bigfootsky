@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    <title>Panel BigFootSky</title>
+    <title>Panel BigFootSki</title>
 @endsection
 
 @section('style')
@@ -11,7 +11,7 @@
 @section('content')
     <div class="row card">
         <div class="col s12 card-content">
-            <span class="card-title">Panel BigFootSky</span>
+            <span class="card-title">Panel BigFootSki</span>
         </div>
         <div class="col s12">
             <p align="center">KPIs de contenido</p>

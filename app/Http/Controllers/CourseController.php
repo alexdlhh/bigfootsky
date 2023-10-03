@@ -51,9 +51,9 @@ class CourseController extends Controller
         if($time !== null){
             $query->where('time', 'like', '%'.$time.'%');
         }
-        $teachers = $query->get();
+        $courses = $query->get();
         $admin['section'] = 'courses';
-        return view('admin.listCourse', compact('teachers', 'admin'));
+        return view('admin.listCourse', compact('courses', 'admin'));
     }
 
     /**
@@ -66,8 +66,9 @@ class CourseController extends Controller
         if($id != null){
             $course = Course::find($id);
         }
+        $teachers = Teacher::all();
         $admin['section'] = 'courses';
-        return view('admin.editCourse', compact('course', 'admin'));
+        return view('admin.editCourse', compact('course', 'admin', 'teachers'));
     }
 
     /**
@@ -90,15 +91,16 @@ class CourseController extends Controller
             $course->date = $request->date;
             $course->time_start = $request->time_start;
             $course->time_end = $request->time_end;
+            $course->teacher_id = $request->teacher_id;
             $course->save();
         }catch(\Exception $e){
-            return response()->json(['success' => false, 'message' => 'Error al guardar el teacher']);
+            return response()->json(['success' => false, 'message' => 'Error al guardar el curso']);
         }
-        return response()->json(['success' => true, 'message' => 'Teacher guardado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Curso guardado correctamente', 'id' => $course->id]);
     }
 
     /**
-     * this function will delete the teacher
+     * this function will delete the curso
      * @param Request request
      * @return \Illuminate\Ressponse\JsonResponse
      */
@@ -107,8 +109,8 @@ class CourseController extends Controller
             $course = Course::find($request->id);
             $course->delete();
         }catch(\Exception $e){
-            return response()->json(['success' => false, 'message' => 'Error al eliminar el teacher']);
+            return response()->json(['success' => false, 'message' => 'Error al eliminar el curso']);
         }
-        return response()->json(['success' => true, 'message' => 'Teacher eliminado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Curso eliminado correctamente']);
     }
 }

@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    <title>Panel BigFootSky</title>
+    <title>Panel BigFootSki</title>
 @endsection
 
 @section('style')
@@ -59,10 +59,27 @@
                     </select>
                     <label for="health_product">Integridad</label>
                 </div>
+                @if(!empty($product['id']))
+                <div class="col s12">
+                    <img src="/img/qr/{{$product['id']}}.svg" alt="" width="200">
+                </div>
+                @endif
                 <div class="col s12 padding">
                     <a href="javascript:;" class="btn" id="saveProduct">Guardar</a>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Modal Trigger -->
+    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <iframe src="/qr_recorder.html" frameborder="0" width="100%"></iframe>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
         </div>
     </div>
     <input type="text" id="id" value="{{$product['id'] ?? $id}}" hidden>
@@ -71,6 +88,7 @@
 @section('script')
     <script>
         $(document).ready(function(){
+            $('.modal').modal();
             $('#saveProduct').click(function(){
                 var id = $('#id').val();
                 var name = $('#name_product').val();

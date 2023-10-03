@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ProductController extends Controller
 {
@@ -138,7 +138,9 @@ class ProductController extends Controller
     public function save(Request $request){
         try{
             $product = Product::find($request->id);
+            $makeQr=false;
             if($product == null){
+                $makeQr=true;
                 $product = new Product();
             }
             $product->name = $request->name;
@@ -148,10 +150,23 @@ class ProductController extends Controller
             $product->health = $request->health;
             $product->status = $request->status;
             $product->save();
+            $data = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'category' => $product->category->name,
+                'size' => $product->size
+            ];
+            if($makeQr){
+                $qr = QrCode::size(500)->generate(json_encode($data));
+                //guardar contenido de qr en un svg
+                $file = fopen(public_path().'/img/qr/'.$product->id.'.svg', 'w');
+                fwrite($file, $qr);
+                fclose($file);
+            }
         }catch(\Exception $e){
             return response()->json(['success' => false, 'message' => 'Error al guardar el producto: '.$e->getMessage()]);
         }
-        return response()->json(['success' => true, 'message' => 'Producto guardado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Producto guardado correctamente', 'id' => $product->id]);
     }
 
     /**

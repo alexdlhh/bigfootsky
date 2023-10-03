@@ -62,7 +62,7 @@ class ClientController extends Controller
      */
     public function create($id = null){
         $client = Client::find($id);
-        $admin['section'] = 'rents';
+        $admin['section'] = 'clients';
         return view('admin.editClient', compact('admin', 'client'));
     }
 
@@ -96,7 +96,7 @@ class ClientController extends Controller
         }catch(\Exception $e){
             return response()->json(['success' => false, 'message' => 'Error al guardar el cliente']);
         }
-        return response()->json(['success' => true, 'message' => 'Cliente guardado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Cliente guardado correctamente', 'id' => $client->id]);
     }
 
     /**

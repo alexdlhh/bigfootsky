@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    <title>Panel BigFootSky</title>
+    <title>Panel BigFootSki</title>
 @endsection
 
 @section('style')
@@ -52,6 +52,7 @@
                     <thead>
                         <tr>
                             <th>Fecha</th>
+                            <th>Hora</th>
                             <th>Estado</th>
                             <th>Precio</th>
                             <th>Opciones</th>
@@ -62,6 +63,7 @@
                             @foreach($rents as $row => $rent)
                                 <tr>
                                     <td>{{$rent->date}}</td>
+                                    <td>{{$rent->time_start}} - {{$rent->time_end}}</td>
                                     <td>{{$statuses[$rent->status]}}</td>
                                     <td>{{$rent->price}}</td>
                                     <td>

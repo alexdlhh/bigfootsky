@@ -11,11 +11,11 @@
 @section('content')
     <div class="row card">
         <div class="col s12 card-content">
-            <span class="card-title">{{!empty($course['id'])?$course['name']:'Curso'}}</span>
+            <span class="card-title">{{!empty($particular['id'])?$particular['name']:'Clase Particular'}}</span>
             
             <div class="row" id="basic">
                 <div class="col s4 input-field">
-                    <input type="text" id="name" value="{{!empty($course['name'])?$course['name']:''}}">
+                    <input type="text" id="name" value="{{!empty($particular['name'])?$particular['name']:''}}">
                     <label for="name">Nombre</label>
                 </div>
                 <div class="col s4 input-field">
@@ -28,15 +28,15 @@
                     <label for="status">Estado</label>
                 </div>
                 <div class="col s4 input-field">
-                    <input type="date" id="date" value="{{!empty($course['date'])?$course['date']:''}}">
+                    <input type="date" id="date" value="{{!empty($particular['date'])?$particular['date']:''}}">
                     <label for="date">Fecha</label>
                 </div>
                 <div class="col s4 input-field">
-                    <input type="time" id="time_start" value="{{!empty($course['time_start'])?$course['time_start']:''}}">
+                    <input type="time" id="time_start" value="{{!empty($particular['time_start'])?$particular['time_start']:''}}">
                     <label for="time_start">Hora de inicio</label>
                 </div>
                 <div class="col s4 input-field">
-                    <input type="time" id="time_end" value="{{!empty($course['time_end'])?$course['time_end']:''}}">
+                    <input type="time" id="time_end" value="{{!empty($particular['time_end'])?$particular['time_end']:''}}">
                     <label for="time_end">Hora de final</label>
                 </div>
                 <div class="col s4 input-field">
@@ -50,19 +50,19 @@
                     <label for="teacher">Profesor</label>
                 </div>
                 <div class="col s4 input-field">
-                    <input type="number" id="max_students" value="{{!empty($course['max_students'])?$course['max_students']:''}}">
+                    <input type="number" id="max_students" value="{{!empty($particular['max_students'])?$particular['max_students']:''}}">
                     <label for="max_students">Número máximo de alumnos</label>
                 </div>
                 <div class="col s12">
-                    <textarea id="description" cols="30" rows="10">{{!empty($course['description'])?$course['description']:''}}</textarea>
+                    <textarea id="description" cols="30" rows="10">{{!empty($particular['description'])?$particular['description']:''}}</textarea>
                 </div>
                 <div class="col s12 padding">
-                    <a href="javascript:;" class="btn" id="saveCourse">Guardar</a>
+                    <a href="javascript:;" class="btn" id="saveparticular">Guardar</a>
                 </div>
             </div>
         </div>
     </div>
-    <input type="text" id="id" value="{{$course['id'] ?? 0}}" hidden>
+    <input type="text" id="id" value="{{$particular['id'] ?? 0}}" hidden>
 @endsection
 
 @section('script')
@@ -77,7 +77,7 @@
             });
         });
         $(document).ready(function(){
-            $('#saveCourse').click(function(){
+            $('#saveparticular').click(function(){
                 var id = $('#id').val();
                 var name = $('#name').val();
                 var teacher_id = $('#teacher').val();
@@ -100,13 +100,13 @@
                     _token: '{{csrf_token()}}'
                 };
                 $.ajax({
-                    url: '/courseSave',
+                    url: '/particularSave',
                     type: 'POST',
                     data: data,
                     success: function(response){
                         if(response.status){
                             M.toast({html: response.message});
-                            window.location.href = '/courseEdit/'+response.id;
+                            window.location.href = '/particularEdit/'+response.id;
                         }else{
                             alert(response.message);
                         }

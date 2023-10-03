@@ -14,47 +14,56 @@
             <span class="card-title">Filtar</span>
             <div class="row">
                 <div class="col s12 input-field">
-                    <input type="text" id="filter_fullname" value="{{!empty($fullname)?$fullname:''}}">
-                    <label for="filter_fullname">Nombre o Apellido</label>
+                    <input type="text" id="filter_name" value="{{!empty($name)?$name:''}}">
+                    <label for="filter_name">Nombre</label>
                 </div>
                 <div class="col s4 input-field">
-                    <input type="text" id="filter_dni" value="{{!empty($dni)?$dni:''}}">
-                    <label for="filter_dni">DNI</label>
+                    <select id="filter_teacher">
+                        <option value="">Todos</option>
+                        @if(!empty($teachers))
+                            @foreach($teachers as $row => $teacher)
+                                <option value="{{$teacher->id}}" {{!empty($teacher_id) && $teacher_id == $teacher->id?'selected':''}}>{{$teacher->name}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <label for="filter_teacher">Profesor</label>
                 </div>
                 <div class="col s4 input-field">
-                    <input type="text" id="filter_email" value="{{!empty($email)?$email:''}}">
-                    <label for="filter_email">Email</label>                    
+                    <input type="date" id="filter_date" value="{{!empty($date)?$date:''}}">
+                    <label for="filter_date">Fecha</label>                    
                 </div>
                 <div class="col s4 input-field">
-                    <input type="text" id="filter_phone" value="{{!empty($phone)?$phone:''}}">
-                    <label for="filter_phone">Teléfono</label>
+                    <input type="time" id="filter_time" value="{{!empty($time)?$time:''}}">
+                    <label for="filter_time">Hora</label>
                 </div>
             </div>
         </div>
     </div>
     <div class="row card">
         <div class="col s12 card-content">
-            <span class="card-title">Clientes</span>
+            <span class="card-title">Clases Particulares</span>
             <div class="row table">
                 <table>
                     <thead>
                         <tr>
-                            <th>Nombre Completo</th>
-                            <th>Email</th>
-                            <th>Phone</th>
+                            <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Profesor</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if(!empty($clients))
-                            @foreach($clients as $row => $client)
+                        @if(!empty($particulars))
+                            @foreach($particulars as $row => $particular)
                                 <tr>
-                                    <td>{{$client->surname}}, {{$client->name}}</td>
-                                    <td>{{$client->email}}</td>
-                                    <td>{{$client->phone}}</td>
+                                    <td>{{$particular->name}}</td>
+                                    <td>{{$particular->date}}</td>
+                                    <td>{{$particular->time_start}} - {{$particular->time_end}}</td>
+                                    <td>{{$particular->teacher->name}}</td>
                                     <td>
-                                        <a href="/clientEdit/{{$client->id}}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">edit</i></a>
-                                        <a href="#" class="btn-floating btn-small waves-effect waves-light red deleteClient" data-id="{{$client->id}}"><i class="material-icons">delete</i></a>
+                                        <a href="/particularEdit/{{$particular->id}}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn-floating btn-small waves-effect waves-light red deleteParticular" data-id="{{$particular->id}}"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -66,7 +75,7 @@
     </div>
     <div class="row">
         <div class="col s12 right-align">
-            <a href="/clientEdit/0" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+            <a href="/particularEdit/0" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
         </div>
     </div>    
 @endsection
@@ -74,12 +83,12 @@
 @section('script')
     <script>
         $(document).ready(function(){
-            $('.deleteClient').click(function(){
-                if(confirm('¿Seguro que desea borrar este cliente? la acción NO será reversible')){
+            $('.deleteParticular').click(function(){
+                if(confirm('¿Seguro que desea borrar este Profesor? la acción NO será reversible')){
                     var id = $(this).data('id');
                     var token = '{{csrf_token()}}';
                     $.ajax({
-                        url: '/clientDelete/',
+                        url: '/particularDelete/',
                         type: 'POST',
                         data: {
                             id: id,
@@ -101,7 +110,7 @@
                 var filter_dni = $('#filter_dni').val();
                 var filter_email = $('#filter_email').val();
                 var filter_phone = $('#filter_phone').val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
 
             $('#filter_dni').change(function(){
@@ -109,7 +118,7 @@
                 var filter_dni = $(this).val();
                 var filter_email = $('#filter_email').val();
                 var filter_phone = $('#filter_phone').val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
 
             $('#filter_email').change(function(){
@@ -117,7 +126,7 @@
                 var filter_dni = $('#filter_dni').val();
                 var filter_email = $(this).val();
                 var filter_phone = $('#filter_phone').val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
 
             $('#filter_phone').change(function(){
@@ -125,7 +134,7 @@
                 var filter_dni = $('#filter_dni').val();
                 var filter_email = $('#filter_email').val();
                 var filter_phone = $(this).val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
         });        
     </script>

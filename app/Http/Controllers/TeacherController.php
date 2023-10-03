@@ -93,7 +93,7 @@ class TeacherController extends Controller
         }catch(\Exception $e){
             return response()->json(['success' => false, 'message' => 'Error al guardar el teacher']);
         }
-        return response()->json(['success' => true, 'message' => 'Teacher guardado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Teacher guardado correctamente', 'id' => $teacher->id]);
     }
 
     /**

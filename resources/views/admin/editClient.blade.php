@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    <title>Panel BigFootSky</title>
+    <title>Panel BigFootSki</title>
 @endsection
 
 @section('style')
@@ -115,8 +115,11 @@
                     type: 'POST',
                     data: data,
                     success: function(response){
-                        if(response.status == 'ok'){
+                        if(response.success){
+                            M.toast({html: response.message});
                             window.location.href = '/clientEdit/'+response.id;
+                        }else{
+                            M.toast({html: response.message});
                         }
                     }
                 });

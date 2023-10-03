@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    <title>Panel BigFootSky</title>
+    <title>Panel BigFootSki</title>
 @endsection
 
 @section('style')
@@ -63,7 +63,7 @@
                                     <td>{{$course->teacher->name}}</td>
                                     <td>
                                         <a href="/courseEdit/{{$course->id}}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">edit</i></a>
-                                        <a href="#" class="btn-floating btn-small waves-effect waves-light red deletecourse" data-id="{{$course->id}}"><i class="material-icons">delete</i></a>
+                                        <a href="#" class="btn-floating btn-small waves-effect waves-light red deleteCourse" data-id="{{$course->id}}"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -110,7 +110,7 @@
                 var filter_dni = $('#filter_dni').val();
                 var filter_email = $('#filter_email').val();
                 var filter_phone = $('#filter_phone').val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
 
             $('#filter_dni').change(function(){
@@ -118,7 +118,7 @@
                 var filter_dni = $(this).val();
                 var filter_email = $('#filter_email').val();
                 var filter_phone = $('#filter_phone').val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
 
             $('#filter_email').change(function(){
@@ -126,7 +126,7 @@
                 var filter_dni = $('#filter_dni').val();
                 var filter_email = $(this).val();
                 var filter_phone = $('#filter_phone').val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
 
             $('#filter_phone').change(function(){
@@ -134,7 +134,7 @@
                 var filter_dni = $('#filter_dni').val();
                 var filter_email = $('#filter_email').val();
                 var filter_phone = $(this).val();
-                window.location.href = '/clients/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
+                window.location.href = '/particulars/'+filter_fullname+'/'+filter_dni+'/'+filter_email+'/'+filter_phone;
             });
         });        
     </script>

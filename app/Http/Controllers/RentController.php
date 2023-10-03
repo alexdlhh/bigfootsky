@@ -83,9 +83,8 @@ class RentController extends Controller
             10 => 'Nuevo'
         ];
         $statuses = [
-            1 => 'Libre',
-            2 => 'Alquilado',
-            3 => 'Mantenimiento'
+            1 => 'Alquilado',
+            2 => 'Finalizado'
         ];
         $admin['section'] = 'rents';
         return view('admin.listRents', compact('rents', 'clients', 'categories', 'date_start', 'date_end', 'client', 'status', 'healties', 'statuses', 'admin'));
@@ -127,14 +126,19 @@ class RentController extends Controller
             }
             $rent->product_id = $request->product_id;
             $rent->client_id = $request->client_id;
-            $rent->date_start = $request->date_start;
-            $rent->date_end = $request->date_end;
+            $rent->time_start = $request->time_start;
+            $rent->time_end = $request->time_end;
+            $rent->date = $request->date;
+            $rent->price = $request->price;
             $rent->status = $request->status;
             $rent->save();
+            $product = Product::find($request->product_id);
+            $product->status =$rent->status==1?2:1;
+            $product->save();
         }catch(\Exception $e){
-            return response()->json(['success' => false, 'message' => 'Error al guardar el alquiler']);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
-        return response()->json(['success' => true, 'message' => 'Alquiler guardado correctamente']);
+        return response()->json(['success' => true, 'message' => 'Alquiler guardado correctamente', 'id' => $rent->id]);
     }
 
     /**

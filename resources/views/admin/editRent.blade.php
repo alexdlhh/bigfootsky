@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    <title>Panel BigFootSky</title>
+    <title>Panel BigFootSki</title>
 @endsection
 
 @section('style')
@@ -79,7 +79,7 @@
                 var time_end = $('#time_end').val();
                 var price = $('#price').val();
                 $.ajax({
-                    url: "{{route('admin.saveRent')}}",
+                    url: "/rentSave",
                     type: 'POST',
                     data: {
                         id: id,
@@ -93,10 +93,11 @@
                         _token: '{{csrf_token()}}'
                     },
                     success: function(data){
-                        if(data == 'success'){
+                        if(data.success){
+                            M.toast({html: response.message});
                             window.location.href = "/rents";
                         }else{
-                            alert('Error al guardar el alquiler');
+                            alert(data.message);
                         }
                     }
                 });

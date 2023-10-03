@@ -5,6 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ParticularController;
 
 Route::get('/', [HomeController::class, 'login'])->name('login');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
@@ -39,6 +42,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/courseEdit/{id}', [CourseController::class, 'create'])->name('courseEdit');
     Route::post('/courseSave', [CourseController::class, 'save'])->name('courseSave');
     Route::post('/courseDelete', [CourseController::class, 'delete'])->name('courseDelete');
+
+    Route::get('/particulars/{name?}/{dni?}/{email?}/{phone?}', [ParticularController::class, 'index'])->name('particulars');
+    Route::get('/particularEdit/{id}', [ParticularController::class, 'create'])->name('particularEdit');
+    Route::post('/particularSave', [ParticularController::class, 'save'])->name('particularSave');
+    Route::post('/particularDelete', [ParticularController::class, 'delete'])->name('particularDelete');
 
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 });
