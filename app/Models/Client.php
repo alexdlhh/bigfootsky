@@ -21,7 +21,7 @@ class Client extends Model
         'ski_level',
         'snow_level',
         'snow_front',
-        'birthdate'
+        'birthdate',
     ];
 
     protected $hidden = [];
