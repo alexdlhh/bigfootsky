@@ -24,6 +24,7 @@
         <li><a href="/teachers">Profesores</a></li>
         <li><a href="/courses">Cursos</a></li>
         <li><a href="/particulars">Clases Particulares</a></li>
+        <li><a href="/colaborators">colaborators</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
     @yield('content')

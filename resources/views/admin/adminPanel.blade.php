@@ -88,6 +88,9 @@
                         <p>10 clases particulares</p>
                     </div>
                 </div>
+                <div class="col s12">
+                    <a href="/qr_recorder.html">Leer QR</a>
+                </div>
             </div>
         </div>
     </div>

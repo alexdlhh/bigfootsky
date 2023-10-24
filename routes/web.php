@@ -8,6 +8,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ParticularController;
+use App\Http\Controllers\ColaboratorsController;
+
 
 Route::get('/', [HomeController::class, 'login'])->name('login');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
@@ -47,6 +49,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/particularEdit/{id}', [ParticularController::class, 'create'])->name('particularEdit');
     Route::post('/particularSave', [ParticularController::class, 'save'])->name('particularSave');
     Route::post('/particularDelete', [ParticularController::class, 'delete'])->name('particularDelete');
+    
+    Route::get('/colaborators/{name?}/{dni?}/{email?}/{phone?}', [ColaboratorsController::class, 'index'])->name('colaborators');
+    Route::get('/colaboratorsEdit/{id}', [ColaboratorsController::class, 'create'])->name('colaboratorsEdit');
+    Route::post('/colaboratorsSave', [ColaboratorsController::class, 'save'])->name('colaboratorsSave');
+    Route::post('/colaboratorsDelete', [ColaboratorsController::class, 'delete'])->name('colaboratorsDelete');
 
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
-});
+}); 

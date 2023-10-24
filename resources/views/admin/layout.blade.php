@@ -18,7 +18,7 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#!" class="brand-logo"><img src="https://bigfootski.es/wp-content/uploads/2018/09/Logo-bigfoot-blanco.png" class="responsive-img"></a>
+            <a href="/adminPanel" class="brand-logo"><img src="https://bigfootski.es/wp-content/uploads/2018/09/Logo-bigfoot-blanco.png" class="responsive-img"></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
     </nav>
@@ -31,6 +31,7 @@
         <li><a href="/teachers">Profesores</a></li>
         <li><a href="/courses">Cursos</a></li>
         <li><a href="/particulars">Clases Particulares</a></li>
+        <li><a href="/colaborators">colaborators</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
 
@@ -44,6 +45,7 @@
                 <li class="collection-item {{$section=='teachers'?'active':''}}"><a href="/teachers">Profesores</a></li>
                 <li class="collection-item {{$section=='courses'?'active':''}}"><a href="/courses">Cursos</a></li>
                 <li class="collection-item {{$section=='particulars'?'active':''}}"><a href="/particulars">Clases Particulares</a></li>
+                <li class="collection-item {{$section=='colaborators'?'active':''}}"><a href="/colaborators">Colaboradores</a></li>
                 <li class="collection-item"><a href="/logout">Logout</a></li>
             </ul>
         </div>
