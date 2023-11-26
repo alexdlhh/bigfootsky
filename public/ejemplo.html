@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        .signature-pad {
+            position: relative;
+            width: 400px;
+            height: 200px;
+            border: 1px solid #000;
+            margin: 0 auto;
+        }
+        .signature-pad canvas {
+            width: 100%;
+            height: 100%;
+        }
+        .firma {
+            text-align: center;
+        }
+        .signature-pad button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        a, li, button, p, span, label, .regular {
+            font-family: 'TCCC-UnityHeadline-Regular' !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="col s12 firma visitante_1">
+        <div id="signature-pad" class="signature-pad">
+            <canvas id="signature"></canvas>
+            <button id="clear-button"><i class="material-icons">clear</i></button>
+        </div>
+    </div>		
+    
+    <div class="col s12 center-align">
+        <button class="btn waves-effect waves-light" id="registrar">Aceptar y contnuar</button>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var canvas = $('#signature')[0];
+        var signaturePad = new SignaturePad(canvas);
+        var clearButton = $('#clear-button');
+        
+        clearButton.click(function() {
+            signaturePad.clear();
+        });
+
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#registrar').click(function(){
+            var firma = $('#signature').get(0).toDataURL();
+            var data2 = {
+                file: firma,
+                nombre: '1639_firma',
+                tipo: 'firmas',
+                id: '1639',
+                table: 'media',
+                option: 'insert'
+            }
+            $.ajax({
+                url: 'http://localhost:8011/',
+                type: 'POST',
+                data: data2,
+                success: function(response){
+                    console.log(response);
+                }
+            });
+        })
+    })
+</script>

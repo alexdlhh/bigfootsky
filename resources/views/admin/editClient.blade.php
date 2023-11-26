@@ -6,6 +6,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -70,60 +71,138 @@
                     <a href="javascript:;" class="btn" id="saveClient">Guardar</a>
                 </div>
             </div>
-        </div>
+            <div class="file-field input-field col s3">
+                <div class="col s6 input-field">
+                    <label for="image_a"></label>
+                    <input type="file" id="image_a" name="image_a">
+                </div>
+                <div class="btn">
+                    <span>DNI CARA A</span>
+                    <input type="file" id="cara_a" name="cara_a">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <div class="file-field input-field col s3">
+                <div class="col s6 input-field">
+                    <label for="image_b"></label>
+                    <input type="file" id="image_b" name="image_b">
+                </div>
+                <div class="btn">
+                    <span>DNI CARA B</span>
+                    <input type="file" id="cara_b" name="cara_b">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <div class="col s12 firma visitante_1">
+                <div id="signature-pad" class="signature-pad">
+                    <canvas id="signature"></canvas>
+                    <button id="clear-button"><i class="material-icons">clear</i></button>
+                </div>
+            </div>
+            <div class="col s12 center-align">
+                <button class="btn waves-effect waves-light" id="registrar">Aceptar y contnuar</button>
+            </div>		
+        </div>  
     </div>
-    <input type="text" id="id" value="{{$client['id'] ?? 0}}" hidden>
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $('#saveClient').click(function(){
-                var id = $('#id').val();
-                var name = $('#name').val();
-                var surname = $('#surname').val();
-                var dni = $('#dni').val();
-                var email = $('#email').val();
-                var phone = $('#phone').val();
-                var address = $('#address').val();
-                var birthdate = $('#birthdate').val();
-                var height = $('#height').val();
-                var weight = $('#weight').val();
-                var shoe_size = $('#shoe_size').val();
-                var ski_level = $('#ski_level').val();
-                var snow_level = $('#snow_level').val();
-                var snow_front = $('#snow_front').val();
-                var data = {
-                    id: id,
-                    name: name,
-                    surname: surname,
-                    dni: dni,
-                    email: email,
-                    phone: phone,
-                    address: address,
-                    birthdate: birthdate,
-                    height: height,
-                    weight: weight,
-                    shoe_size: shoe_size,
-                    ski_level: ski_level,
-                    snow_level: snow_level,
-                    snow_front: snow_front,
-                    _token: '{{csrf_token()}}'
-                };
-                $.ajax({
-                    url: '/clientSave',
-                    type: 'POST',
-                    data: data,
-                    success: function(response){
-                        if(response.success){
-                            M.toast({html: response.message});
-                            window.location.href = '/clientEdit/'+response.id;
-                        }else{
-                            M.toast({html: response.message});
-                        }
+    $(document).ready(function(){
+
+        var canvas = $('#signature')[0];
+        var signaturePad = new SignaturePad(canvas);
+        var clearButton = $('#clear-button');
+    
+        clearButton.click(function() {
+        signaturePad.clear();
+        });
+
+        $('#saveClient').click(function(){
+            var id = $('#id').val();
+            var name = $('#name').val();
+            var surname = $('#surname').val();
+            var dni = $('#dni').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            var address = $('#address').val();
+            var birthdate = $('#birthdate').val();
+            var height = $('#height').val();
+            var weight = $('#weight').val();
+            var shoe_size = $('#shoe_size').val();
+            var ski_level = $('#ski_level').val();
+            var snow_level = $('#snow_level').val();
+            var snow_front = $('#snow_front').val();
+            // Crear un objeto FormData para enviar los datos
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('name', name);
+            formData.append('surname', surname);
+            formData.append('dni', dni);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('address', address);
+            formData.append('birthdate', birthdate);
+            formData.append('height', height);
+            formData.append('weight', weight);
+            formData.append('shoe_size', shoe_size);
+            formData.append('ski_level', ski_level);
+            formData.append('snow_level', snow_level);
+            formData.append('snow_front', snow_front);
+
+            // Agregar las imágenes "cara A" y "cara B al formulario
+            formData.append('caraa', $('#caraa')[0].files[0]);
+            formData.append('carab', $('#carab')[0].files[0]);
+
+            formData.append('_token', '{{ csrf_token() }}');
+
+            // Realizar la solicitud AJAX para enviar los datos y las imágenes
+            $.ajax({
+                url: '/clientSave',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response.success){
+                        M.toast({html: response.message});
+                        window.location.href = '/clientEdit/' + response.id;
+                    } else {
+                        M.toast({html: response.message});
                     }
-                });
+                }
             });
-        });     
+        });
+    });     
     </script>
+    
+    <style>
+        .signature-pad {
+            position: relative;
+            width: 400px;
+            height: 200px;
+            border: 1px solid #000;
+            margin: 0 auto;
+        }
+        .signature-pad canvas {
+            width: 100%;
+            height: 100%;
+        }
+        .firma {
+            text-align: center;
+        }
+        .signature-pad button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        a, li, button, p, span, label, .regular {
+            font-family: 'TCCC-UnityHeadline-Regular' !important;
+        }
+    </style>
 @endsection

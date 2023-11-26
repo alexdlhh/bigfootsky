@@ -26,12 +26,14 @@
     <ul class="sidenav" id="mobile-demo">
         <li><a href="/adminPanel">Dashboard</a></li>
         <li><a href="/clients">Clientes</a></li>
+        <li><a href="/teachers">Profesores</a></li>
+        <li><a href="/category">Categorias</a></li>
+        <li><a href="/colaborators">Colaboradores</a></li>
         <li><a href="/products">Productos</a></li>        
         <li><a href="/rents">Alquiler</a></li>
-        <li><a href="/teachers">Profesores</a></li>
         <li><a href="/courses">Cursos</a></li>
         <li><a href="/particulars">Clases Particulares</a></li>
-        <li><a href="/colaborators">colaborators</a></li>
+        <li><a href="/repair">Reparaciones</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
 
@@ -40,12 +42,14 @@
             <ul class="collection">
                 <li class="collection-item {{$section=='adminPanel'?'active':''}}"><a href="/adminPanel">Dashboard</a></li>
                 <li class="collection-item {{$section=='clients'?'active':''}}"><a href="/clients">Clientes</a></li>
+                <li class="collection-item {{$section=='teachers'?'active':''}}"><a href="/teachers">Profesores</a></li>
+                <li class="collection-item {{$section=='category'?'active':''}}"><a href="/category">Categorias</a></li>
+                <li class="collection-item {{$section=='colaborators'?'active':''}}"><a href="/colaborators">Colaboradores</a></li>
                 <li class="collection-item {{$section=='products'?'active':''}}"><a href="/products">Productos</a></li>
                 <li class="collection-item {{$section=='rents'?'active':''}}"><a href="/rents">Alquiler</a></li>
-                <li class="collection-item {{$section=='teachers'?'active':''}}"><a href="/teachers">Profesores</a></li>
                 <li class="collection-item {{$section=='courses'?'active':''}}"><a href="/courses">Cursos</a></li>
                 <li class="collection-item {{$section=='particulars'?'active':''}}"><a href="/particulars">Clases Particulares</a></li>
-                <li class="collection-item {{$section=='colaborators'?'active':''}}"><a href="/colaborators">Colaboradores</a></li>
+                <li class="collection-item {{$section=='repair'?'active':''}}"><a href="/repair">Reparaciones</a></li>
                 <li class="collection-item"><a href="/logout">Logout</a></li>
             </ul>
         </div>

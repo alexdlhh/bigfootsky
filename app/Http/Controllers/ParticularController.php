@@ -112,4 +112,5 @@ class ParticularController extends Controller
         }
         return response()->json(['success' => true, 'message' => 'Teacher eliminado correctamente']);
     }
+
 }

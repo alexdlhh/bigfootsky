@@ -55,6 +55,47 @@ class ClientController extends Controller
         return view('admin.listClients', compact('clients', 'admin', 'fullname', 'dni', 'email', 'phone'));
     }
 
+    /** */
+    /*function ejemplo(){
+        $clients = Client::all();
+        $identificadores = Identificadores::all();
+        $conversiones = Conversiones::all();
+
+        $proveedores = [];
+        foreach($conversiones as $conversion){
+            if(!in_array($conversion->provider,$proveedores)){
+                $proveedores[] = $conversion->provider;
+            }
+        }
+        
+        $cuentas_por_proveedor = [];
+        foreach($conversiones as $conversion){
+            foreach($proveedores as $proveedor){
+                if(empty($cuentas_por_proveedor[$proveedor])){
+                    $cuentas_por_proveedor[$proveedor] = 0;
+                }
+                if($conversion->provider == $proveedor){
+                    $cuentas_por_proveedor[$proveedor] += $conversion->comision;
+                    break;
+                }
+            }
+        }
+        
+        $cuentas_por_colaborador = [];
+        foreach($conversiones as $conversion){
+            foreach($identificadores as $identificador){
+                if(empty($cuentas_por_colaborador[$identificador->id_cliente])){
+                    $cuentas_por_colaborador[$identificador->id_cliente]=0;
+                }
+                if($conversion->identificador == $identificador->identificador){
+                    $cuentas_por_colaborador[$identificador->id_cliente] += $conversion->comision;
+                    break;
+                }
+            }
+        }
+
+    }*/
+
     /**
      * this function will load the view of the client
      * @param int id

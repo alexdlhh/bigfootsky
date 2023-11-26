@@ -9,6 +9,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ParticularController;
 use App\Http\Controllers\ColaboratorsController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RepairController;
 
 
 Route::get('/', [HomeController::class, 'login'])->name('login');
@@ -38,11 +40,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientEdit/{id}', [ClientController::class, 'create'])->name('clientEdit');
     Route::post('/clientSave', [ClientController::class, 'save'])->name('clientSave');
     Route::post('/clientDelete', [ClientController::class, 'delete'])->name('clientDelete');
+    Route::post('/signaturePad', [ClientController::class, 'signaturePad'])->name('signaturePad');
 
     Route::get('/products/{category?}/{status?}/{size?}/{quality?}', [ProductController::class, 'index'])->name('products');
     Route::get('/productEdit/{id}', [ProductController::class, 'create'])->name('productEdit');
     Route::post('/productSave', [ProductController::class, 'save'])->name('productSave');
     Route::post('/productDelete', [ProductController::class, 'delete'])->name('productDelete');
+    Route::post('/priceCalculator', [RentController::class, 'priceCalculator'])->name('priceCalculator');
 
     Route::get('/rents/{date_start?}/{date_end?}/{client?}/{status?}', [RentController::class, 'index'])->name('rents');
     Route::get('/rentEdit/{id}', [RentController::class, 'create'])->name('rentEdit');
@@ -68,6 +72,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/colaboratorsEdit/{id}', [ColaboratorsController::class, 'create'])->name('colaboratorsEdit');
     Route::post('/colaboratorsSave', [ColaboratorsController::class, 'save'])->name('colaboratorsSave');
     Route::post('/colaboratorsDelete', [ColaboratorsController::class, 'delete'])->name('colaboratorsDelete');
+
+    Route::get('/category/{name?}/{dni?}/{email?}/{phone?}', [CategoryController::class, 'index'])->name('category');
+    Route::get('/categoryEdit/{id}', [CategoryController::class, 'create'])->name('categoryEdit');
+    Route::post('/categorySave', [CategoryController::class, 'save'])->name('categorySave');
+    Route::post('/categoryDelete', [CategoryController::class, 'delete'])->name('categoryDelete');
+
+    Route::get('/repair/{name?}/{dni?}/{email?}/{phone?}', [RepairController::class, 'index'])->name('repair');
+    Route::get('/repairEdit/{id}', [RepairController::class, 'create'])->name('repairEdit');
+    Route::post('/repairSave', [RepairController::class, 'save'])->name('repairSave');
+    Route::post('/repairDelete', [RepairController::class, 'delete'])->name('repairDelete');
+
 
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 }); 
