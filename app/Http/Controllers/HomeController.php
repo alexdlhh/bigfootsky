@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -117,5 +118,15 @@ class HomeController extends Controller
     public function thanks(){
         $admin['section'] = 'thanks';
         return view('front.thanks',['admin' => $admin]);
+    }
+
+    public function syncRent($id){
+        $admin['section'] = 'syncRent';
+        $rents = file_get_contents('https://erp.nomadspro.com/bigfootski/get/'.$id);
+        $products = [];
+        foreach(json_decode($rents, true)['data'] as $rent){
+            $products[] = Product::find($rent['id_product']);
+        }
+        return response()->json($products, 200);
     }
 }

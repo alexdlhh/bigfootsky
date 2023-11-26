@@ -73,7 +73,7 @@
             
             <div class="row" id="basic">
                 <div class="col s4 input-field">
-                    <select id="client">
+                    <select id="client" multiple>
                         @if(!empty($clients))
                             @foreach($clients as $_client)
                                 <option value="{{$_client->id}}" {{!empty($product) && $_client->id == $client['id'] ? 'selected' : ''}}>{{$_client->name}}</option>
@@ -226,13 +226,31 @@
                 setInterval(() => {
                     //llamamos a https://erp.nomadspro.com/bigfootski/get/ y obtenemos los productos usanbdo
                     $.ajax({
-                        url: "http://localhost:8011/test.php",
+                        url: "/syncRent/"+$('#id').val(),
                         type: 'GET',
                         success: function(data){
-                            $('#productos').html(data);
+                            console.log(data);
+                            var hmtl = '';
+                            $.each(data,function(k,v){
+                                hmtl += '<div class="col s12 m6 l4">';
+                                hmtl += '<div class="card">';
+                                hmtl += '<div class="card-content">';
+                                hmtl += '<span class="card-title">'+v.name+'</span>';
+                                hmtl += '<p>'+v.quality+'</p>';
+                                hmtl += '<p>'+v.size+'</p>';
+                                hmtl += '<p>'+v.health+'</p>';
+                                hmtl += '</div>';
+                                hmtl += '<div class="card-action">';
+                                hmtl += '<a href="javascript:;" class="btn" onclick="deleteProduct('+v.id+')">Eliminar</a>';
+                                hmtl += '</div>';
+                                hmtl += '</div>';
+                                hmtl += '</div>';
+                            
+                            })
+                            $('#productos').html(hmtl);
                         }
                     });
-                }, 500);
+                }, 1000);
             }
             $('select').formSelect();
             $('.modal').modal();
