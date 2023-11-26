@@ -104,4 +104,18 @@ class HomeController extends Controller
         return view('admin.adminPanel',['admin' => $admin]);
     }
 
+    public function reserva(){
+        $admin['section'] = 'reserva';
+        return view('front.reserva',['admin' => $admin]);
+    }
+
+    public function step2(){
+        $admin['section'] = 'step2';
+        return view('front.step2',['admin' => $admin]);
+    }
+
+    public function thanks(){
+        $admin['section'] = 'thanks';
+        return view('front.thanks',['admin' => $admin]);
+    }
 }

@@ -12,6 +12,20 @@ use App\Http\Controllers\ColaboratorsController;
 
 
 Route::get('/', [HomeController::class, 'login'])->name('login');
+
+//paso 1 de reserva, registramos los usuarios
+Route::get('/reserva', [HomeController::class, 'reserva'])->name('reserva');
+//guardamos los usuarios en bbdd, será llamado por ajax
+Route::post('/guardar-step1', [HomeController::class, 'saveStep1'])->name('saveStep1');
+//paso 2 de reserva, seleccionamos los productos
+Route::get('/reserva-step2', [HomeController::class, 'step2'])->name('step2');
+//guardamos los productos en bbdd, será llamado por ajax
+Route::post('/guardar-step2', [HomeController::class, 'saveStep2'])->name('saveStep2');
+//ultimo paso, confirmamos la reserva y mostramos el resumen junto a un mensaje de gracias
+Route::get('/reserva-thanks', [HomeController::class, 'thanks'])->name('thanks');
+
+//vas a tener que crear 4 funciones nuevas en HomeController, 2 que van a ir a una view y otras 2 que son para guardar los datos en bbdd
+
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::post('/do_login', [HomeController::class, 'do_login'])->name('do_login');
