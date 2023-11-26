@@ -232,19 +232,33 @@
                             console.log(data);
                             var hmtl = '';
                             $.each(data,function(k,v){
-                                hmtl += '<div class="col s12 m6 l4">';
-                                hmtl += '<div class="card">';
-                                hmtl += '<div class="card-content">';
-                                hmtl += '<span class="card-title">'+v.name+'</span>';
-                                hmtl += '<p>'+v.quality+'</p>';
-                                hmtl += '<p>'+v.size+'</p>';
-                                hmtl += '<p>'+v.health+'</p>';
-                                hmtl += '</div>';
-                                hmtl += '<div class="card-action">';
-                                hmtl += '<a href="javascript:;" class="btn" onclick="deleteProduct('+v.id+')">Eliminar</a>';
-                                hmtl += '</div>';
-                                hmtl += '</div>';
-                                hmtl += '</div>';
+                                hmtl += `<div class="col s12 m6 l4">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col s12 center-align">
+                                                <span class="card-title">`+v.name+`</span>
+                                            </div>    
+                                            <div class="col s6 center-align">
+                                                <p>`+v.quality+`</p>
+                                                <p>`+v.size+`</p>
+                                                <p>`+v.health+`</p>
+                                            </div>
+                                            <div class="col s6 center-align">
+                                                <input type="date" id="date_start" value="">
+                                                <input type="date" id="date_end" value="">
+                                                <input type="text" value='`+v.precio+`'>
+                                            </div>
+                                            <div class="col s12 center-align">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <a href="javascript:;" class="btn" onclick="deleteProduct(`+v.id+`)">Eliminar</a>
+                                    </div>
+                                </div>
+                                </div>`;
                             
                             })
                             $('#productos').html(hmtl);
