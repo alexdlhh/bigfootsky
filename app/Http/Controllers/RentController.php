@@ -104,7 +104,7 @@ class RentController extends Controller
         $clients = Client::all();
         if($id != 0){
             $rent = Rent::find($id);
-            $product = Product::find($rent->product_id);
+            $product = !empty($rent->product_id)?Product::find($rent->product_id):[];
             $client = Client::find($rent->client_id);
         }
         $admin['section'] = 'rents';
@@ -132,9 +132,11 @@ class RentController extends Controller
             $rent->price = $request->price;
             $rent->status = $request->status;
             $rent->save();
-            $product = Product::find($request->product_id);
-            $product->status =$rent->status==1?2:1;
-            $product->save();
+            if(!empty($request->product_id)){
+                $product = Product::find($request->product_id);
+                $product->status =$rent->status==1?2:1;
+                $product->save();
+            }
         }catch(\Exception $e){
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }

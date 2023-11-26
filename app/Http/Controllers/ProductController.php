@@ -106,6 +106,10 @@ class ProductController extends Controller
      */
     public function create($id = 0){
         $product = Product::find($id);
+        if($product == null){
+            $product = new Product();
+        }
+        $product->precio = !empty($product->precio)?json_decode($product->precio, true):[];
         $categories = Category::all();
         $admin['section'] = 'products';
         $sizes = Product::select('size')->distinct()->get();
@@ -149,6 +153,17 @@ class ProductController extends Controller
             $product->quality = $request->quality;
             $product->health = $request->health;
             $product->status = $request->status;
+            $precio = [
+                1 => $request->precio1,
+                2 => $request->precio2,
+                3 => $request->precio3,
+                4 => $request->precio4,
+                5 => $request->precio5,
+                6 => $request->precio6,
+                7 => $request->precio7
+            ];
+            $precio = json_encode($precio);
+            $product->precio = $precio;
             $product->save();
             $data = [
                 'id' => $product->id,
@@ -202,6 +217,12 @@ class ProductController extends Controller
             return response()->json(['success' => false, 'message' => 'Error al cambiar el estado del producto']);
         }
         return response()->json(['success' => true, 'message' => 'Estado del producto cambiado correctamente']);
+    }
+    public function priceCalculator(Request $request){
+        $product = Product::find($request->id);
+        $precio = json_decode($product->precio);
+        $precio = $precio[$request->days];
+        return response()->json(['success' => true, 'message' => 'Precio calculado correctamente', 'precio' => $precio]);
     }
 
 }
