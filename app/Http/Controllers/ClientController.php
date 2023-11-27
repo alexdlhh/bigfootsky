@@ -13,6 +13,7 @@ use App\Models\Client;
 use App\Models\Course;
 use App\Models\Particular;
 use App\Models\Teacher;
+use App\Models\Colaborators;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
@@ -106,7 +107,8 @@ class ClientController extends Controller
         $client = Client::find($id);
         $admin['section'] = 'clients';
         $qr = QrCode::size(500)->generate('https://bigfootski.es/gestion/firma/'.$client->id);
-        return view('admin.editClient', compact('admin', 'client','qr'));
+        $colaborators = Colaborators::all();
+        return view('admin.editClient', compact('admin', 'client','qr','colaborators'));
     }
 
     /**
@@ -135,6 +137,7 @@ class ClientController extends Controller
             $client->ski_level = $request->ski_level;
             $client->snow_level = $request->snow_level;
             $client->snow_front = $request->snow_front;
+            $client->colaborator = $request->colaborator ?? '0';
             if(!empty($request->dnia)){
                 $file_dnia = $request->dnia;
                 $ruta = public_path() . "/dnis/" . $file_dnia->getClientOriginalName();

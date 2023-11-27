@@ -61,16 +61,42 @@
                     <label for="shoe_size">Talla de Calzado</label>
                 </div>
                 <div class="col s3 input-field">
-                    <input type="text" id="ski_level" value="{{!empty($client['ski_level'])?$client['ski_level']:''}}">
+                    <select id="ski_level">
+                        <option value="" selected>Selecciona</option>
+                        <option value="Principiante" {{!empty($client['ski_level'])&&$client['ski_level']=='Principiante'?'selected':''}}>Principiante</option>
+                        <option value="Intermedio" {{!empty($client['ski_level'])&&$client['ski_level']=='Intermedio'?'selected':''}}>Intermedio</option>
+                        <option value="Avanzado" {{!empty($client['ski_level'])&&$client['ski_level']=='Avanzado'?'selected':''}}>Avanzado</option>
+                        <option value="Experto" {{!empty($client['ski_level'])&&$client['ski_level']=='Experto'?'selected':''}}>Experto</option>
+                    </select>
                     <label for="ski_level">nivel de SKI</label>
                 </div>
                 <div class="col s3 input-field">
-                    <input type="text" id="snow_level" value="{{!empty($client['snow_level'])?$client['snow_level']:''}}">
+                    <select id="snow_level">
+                        <option value="" selected>Selecciona</option>
+                        <option value="Principiante" {{!empty($client['snow_level'])&&$client['snow_level']=='Principiante'?'selected':''}}>Principiante</option>
+                        <option value="Intermedio" {{!empty($client['snow_level'])&&$client['snow_level']=='Intermedio'?'selected':''}}>Intermedio</option>
+                        <option value="Avanzado" {{!empty($client['snow_level'])&&$client['snow_level']=='Avanzado'?'selected':''}}>Avanzado</option>
+                        <option value="Experto" {{!empty($client['snow_level'])&&$client['snow_level']=='Experto'?'selected':''}}>Experto</option>
+                    </select>
                     <label for="snow_level">nivel de SNOW</label>
                 </div>
                 <div class="col s3 input-field">
-                    <input type="text" id="snow_front" value="{{!empty($client['snow_front'])?$client['snow_front']:''}}">
+                    <select id="snow_front">
+                        <option value="" selected>Selecciona</option>
+                        <option value="Diestro" {{!empty($client['snow_front'])&&$client['snow_front']=='Diestro'?'selected':''}}>Diestro</option>
+                        <option value="Zurdo" {{!empty($client['snow_front'])&&$client['snow_front']=='Zurdo'?'selected':''}}>Zurdo</option>
+                    </select>
                     <label for="snow_front">Diestro/Zurdo SNOW</label>
+                </div>
+                <div class="col s3">
+                    <select id="colaborators">
+                        <option value="" selected>Sin Colaborador</option>
+                        @if(!empty($colaborators))
+                            @foreach($colaborators as $colaborator)
+                                <option value="{{$colaborator['id']}}" {{!empty($client['colaborator_id'])&&$client['colaborator_id']==$colaborator['id']?'selected':''}}>{{$colaborator['name']}}</option>
+                            @endforeach
+                        @endif
+                    </select>
                 </div>
                 <div class="file-field input-field col s3">
                     <div class="file-field input-field">
@@ -139,6 +165,7 @@
             var snow_front = $('#snow_front').val();
             var dnia = $('#dnia').prop('files')[0];
             var dnib = $('#dnib').prop('files')[0];
+            var colaborator = $('#colaborator').val();
             // Crear un objeto FormData para enviar los datos
             var formData = new FormData();
             formData.append('id', id);
