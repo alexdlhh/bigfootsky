@@ -16,7 +16,8 @@ class Course extends Model
         'date',
         'time_start',
         'time_end',
-        'teacher_id'
+        'teacher_id',
+        'material'
     ];
 
     protected $hidden = [];

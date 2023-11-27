@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/courseEdit/{id}', [CourseController::class, 'create'])->name('courseEdit');
     Route::post('/courseSave', [CourseController::class, 'save'])->name('courseSave');
     Route::post('/courseDelete', [CourseController::class, 'delete'])->name('courseDelete');
+    Route::post('/addToCourse', [CourseController::class, 'addStudent'])->name('addStudent');
 
     Route::get('/particulars/{name?}/{dni?}/{email?}/{phone?}', [ParticularController::class, 'index'])->name('particulars');
     Route::get('/particularEdit/{id}', [ParticularController::class, 'create'])->name('particularEdit');
