@@ -10,7 +10,7 @@ class Rent extends Model
 
     protected $fillable = [
         'product_id',
-        'client_id',
+        'clients',
         'date',
         'time_start',
         'time_end',
@@ -23,10 +23,5 @@ class Rent extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
-    }
-
-    public function client()
-    {
-        return $this->belongsTo(Client::class, 'client_id');
     }
 }

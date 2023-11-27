@@ -63,20 +63,27 @@
             text-align: center;
             box-sizing: border-box;
         }
+
+        svg{
+            width: 100%;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="row card">
         <div class="col s12 card-content">
-            <span class="card-title">{{!empty($rent['id'])?$rent['date'].' '.$rent['time_start'].' - '.$rent['time_end'].' ('.$client->name.')':'Alquiler de Producto'}}</span>
+            <span class="card-title">{{!empty($rent['id'])?$rent['date'].' '.$rent['time_start'].' - '.$rent['time_end']:'Alquiler de Producto'}}</span>
             
             <div class="row" id="basic">
                 <div class="col s4 input-field">
                     <select id="client" multiple>
                         @if(!empty($clients))
+                            @php
+                                $rent['clients'] = explode(',',$rent['clients']);
+                            @endphp
                             @foreach($clients as $_client)
-                                <option value="{{$_client->id}}" {{!empty($product) && $_client->id == $client['id'] ? 'selected' : ''}}>{{$_client->name}}</option>
+                                <option value="{{$_client->id}}" {{!empty($rent['clients']) && in_array($_client->id,$rent['clients']) ? 'selected' : ''}}>{{$_client->name}}</option>
                             @endforeach
                         @endif
                     </select>     
@@ -111,12 +118,16 @@
             <div class="row" id="productos">
 
             </div>
+            <div class="row">
+                <div class="col s12">
+                    <h4>Total: <b id="total"></b></h4>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col s12 padding">
-                    <a href="javascript:;" class="btn" id="generateQR">Generar QR</a>
                     <a href="javascript:;" class="btn" id="saveRent">Guardar</a>
-                    <a class="waves-effect waves-light btn modal-trigger" href="#qr">qr</a>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#qr">QR</a>
                 </div>
             </div>
         </div>
@@ -125,7 +136,11 @@
     <div class="modal" id="qr">
         <div class="modal-content">
             <h1 class="h1">QR Scanner</h1>
-            <a href="https://erp.nomdaspro.com/qr/demo/pro.php?id_reserva=1">https://erp.nomdaspro.com/qr/demo/pro.php?id_reserva=1</a>
+            <div class="row">
+                <div class="col s2 offset-s5">
+                    {{$qr}}
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -222,6 +237,8 @@
     </script>
     <script>
         $(document).ready(function(){
+            var total = 0;
+            var last = {};
             if($('#id').val() != 0){
                 setInterval(() => {
                     //llamamos a https://erp.nomadspro.com/bigfootski/get/ y obtenemos los productos usanbdo
@@ -229,39 +246,78 @@
                         url: "/syncRent/"+$('#id').val(),
                         type: 'GET',
                         success: function(data){
-                            console.log(data);
-                            var hmtl = '';
-                            $.each(data,function(k,v){
-                                hmtl += `<div class="col s12 m6 l4">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="row">
-                                            <div class="col s12 center-align">
-                                                <span class="card-title">`+v.name+`</span>
-                                            </div>    
-                                            <div class="col s6 center-align">
-                                                <p>`+v.quality+`</p>
-                                                <p>`+v.size+`</p>
-                                                <p>`+v.health+`</p>
-                                            </div>
-                                            <div class="col s6 center-align">
-                                                <input type="date" id="date_start" value="">
-                                                <input type="date" id="date_end" value="">
-                                                <input type="text" value='`+v.precio+`'>
-                                            </div>
-                                            <div class="col s12 center-align">
-                                                <p></p>
+                            
+                            if(last != data){
+                                var alredy = [];
+                                var diff = [];
+                                $.each(last,function(k,v){
+                                    if(v != null){
+                                        alredy.push(v.id);
+                                        if(v.id == 0){
+                                            diff.push(v);
+                                        }
+                                    }
+                                });
+                                $.each(data,function(k,v){
+                                    if(v != null){
+                                        if(!alredy.includes(v.id)){
+                                            diff.push(v);
+                                        }
+                                    }
+                                });
+                                last = data;
+                                $.each(diff,function(k,v){
+                                    if(v!=null){
+                                    hmtl = `<div class="col s12 m6 l4">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="row">
+                                                <div class="col s12 center-align">
+                                                    <span class="card-title">`+v.name+`</span>
+                                                </div>    
+                                                <div class="col s6 center-align">
+                                                    <p>`+v.quality+`</p>
+                                                    <p>`+v.size+`</p>
+                                                    <p>`+v.health+`</p>
+                                                </div>
+                                                <div class="col s6 center-align">
+                                                    <input type="date" data-id="`+v.id+`" class="date_start" id="date_start`+v.id+`" value="">
+                                                    <input type="date" data-id="`+v.id+`" class="date_end" id="date_end`+v.id+`" value="">
+                                                    <input type="text" id="price`+v.id+`" value='`+v.precio+`' hidden>
+                                                </div>
+                                                <div class="col s12 center-align">
+                                                    <b class="subtotal" id="total`+v.id+`"></b>€
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="card-action">
+                                            <a href="javascript:;" class="btn" onclick="deleteProduct(`+v.id+`)">Eliminar</a>
+                                        </div>
                                     </div>
-                                    <div class="card-action">
-                                        <a href="javascript:;" class="btn" onclick="deleteProduct(`+v.id+`)">Eliminar</a>
-                                    </div>
-                                </div>
-                                </div>`;
-                            
-                            })
-                            $('#productos').html(hmtl);
+                                    </div>`;
+                                    $('#productos').append(hmtl);
+                                    }
+                                })
+                                $('.date_end').change(function(){
+                                    var id = $(this).data('id');
+                                    var date_start = $('#date_start'+id).val();
+                                    var date_end = $('#date_end'+id).val();
+                                    var price = $('#price'+id).val();
+                                    console.log(price)
+                                    prices_data = JSON.parse(price);
+                                    console.log(prices_data)
+                                    var days = Math.floor(( Date.parse(date_end) - Date.parse(date_start) ) / 86400000);
+                                    var price = prices_data[days] ?? 'NaN';
+                                    console.log(price)
+                                    $('#total'+id).html(price);
+                                    total = 0;
+                                    $('.subtotal').each(function(){
+                                        total += parseFloat($(this).html());
+                                    });
+                                    $('#total').html(total+'€');
+                                });
+
+                            }
                         }
                     });
                 }, 1000);

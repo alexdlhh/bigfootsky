@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Rent;
 use App\Models\Client;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 class RentController extends Controller
@@ -107,8 +108,9 @@ class RentController extends Controller
             $product = !empty($rent->product_id)?Product::find($rent->product_id):[];
             $client = Client::find($rent->client_id);
         }
+        $qr = QrCode::size(500)->generate('https://erp.nomadspro.com/qr/demo/pro.php?id_reserva='.$id);
         $admin['section'] = 'rents';
-        return view('admin.editRent', compact('rent', 'products', 'product', 'clients', 'client', 'admin'));
+        return view('admin.editRent', compact('rent', 'products', 'product', 'clients', 'client', 'admin','qr'));
     }
 
     /**

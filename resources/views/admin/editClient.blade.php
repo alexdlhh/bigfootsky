@@ -165,7 +165,7 @@
             var snow_front = $('#snow_front').val();
             var dnia = $('#dnia').prop('files')[0];
             var dnib = $('#dnib').prop('files')[0];
-            var colaborator = $('#colaborator').val();
+            var colaborator = $('#colaborators').val();
             // Crear un objeto FormData para enviar los datos
             var formData = new FormData();
             formData.append('id', id);
@@ -184,6 +184,7 @@
             formData.append('snow_front', snow_front);
             formData.append('dnia', dnia);
             formData.append('dnib', dnib);
+            formData.append('colaborator', colaborator);
 
             formData.append('_token', '{{ csrf_token() }}');
 
