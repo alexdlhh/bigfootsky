@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -118,8 +120,47 @@ class HomeController extends Controller
         $admin['section'] = 'thanks';
         return view('front.thanks',['admin' => $admin]);
     }
+<<<<<<< HEAD
     public function factura(){
         $admin['section'] = 'factura';
         return view('front.factura',['admin' => $admin]);
+=======
+
+    public function syncRent($id){
+        $admin['section'] = 'syncRent';
+        $rents = file_get_contents('https://erp.nomadspro.com/bigfootski/get/'.$id);
+        $products = [];
+        foreach(json_decode($rents, true)['data'] as $rent){
+            $products[] = Product::find($rent['id_product']);
+        }
+        return response()->json($products, 200);
+    }
+
+    public function firma($id){
+        $client = Client::find($id);
+        $admin['section'] = 'firma';
+        return view('front.firma',['admin' => $admin, 'client' => $client]);
+    }
+
+    public function saveFirma(Request $request){
+        try{
+            $firma = $request->firma;
+            //subimos la imagen a la carpeta public
+            $image_parts = explode(";base64,", $firma);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            $firma = uniqid() . '.png';
+            $file = public_path() . "/firma/" . $firma;
+            file_put_contents($file, $image_base64);
+            //guardamos la imagen en la bbdd
+
+            $client = Client::find($request->id);
+            $client->firma = $file;
+            $client->save();
+        }catch(\Exception $e){
+            return response()->json(["success"=>false,'error' => $e->getMessage()], 500);
+        }
+>>>>>>> 285e5577de4e4184e5bd06f12f6b3e877f8827b9
     }
 }

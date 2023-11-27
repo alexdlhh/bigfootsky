@@ -14,7 +14,9 @@ class Teacher extends Model
         'dni',
         'langs',
         'type',
-        'phone'
+        'phone',
+        'modality',
+        'disponibility'
     ];
 
     protected $hidden = [];

@@ -7,6 +7,11 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        svg{
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -51,60 +56,80 @@
                     <input type="text" id="weight" value="{{!empty($client['weight'])?$client['weight']:''}}">
                     <label for="weight">Peso</label>
                 </div>
-                <div class="col s4 input-field">
+                <div class="col s3 input-field">
                     <input type="text" id="shoe_size" value="{{!empty($client['shoe_size'])?$client['shoe_size']:''}}">
                     <label for="shoe_size">Talla de Calzado</label>
                 </div>
-                <div class="col s4 input-field">
-                    <input type="text" id="ski_level" value="{{!empty($client['ski_level'])?$client['ski_level']:''}}">
+                <div class="col s3 input-field">
+                    <select id="ski_level">
+                        <option value="" selected>Selecciona</option>
+                        <option value="Principiante" {{!empty($client['ski_level'])&&$client['ski_level']=='Principiante'?'selected':''}}>Principiante</option>
+                        <option value="Intermedio" {{!empty($client['ski_level'])&&$client['ski_level']=='Intermedio'?'selected':''}}>Intermedio</option>
+                        <option value="Avanzado" {{!empty($client['ski_level'])&&$client['ski_level']=='Avanzado'?'selected':''}}>Avanzado</option>
+                        <option value="Experto" {{!empty($client['ski_level'])&&$client['ski_level']=='Experto'?'selected':''}}>Experto</option>
+                    </select>
                     <label for="ski_level">nivel de SKI</label>
                 </div>
-                <div class="col s4 input-field">
-                    <input type="text" id="snow_level" value="{{!empty($client['snow_level'])?$client['snow_level']:''}}">
+                <div class="col s3 input-field">
+                    <select id="snow_level">
+                        <option value="" selected>Selecciona</option>
+                        <option value="Principiante" {{!empty($client['snow_level'])&&$client['snow_level']=='Principiante'?'selected':''}}>Principiante</option>
+                        <option value="Intermedio" {{!empty($client['snow_level'])&&$client['snow_level']=='Intermedio'?'selected':''}}>Intermedio</option>
+                        <option value="Avanzado" {{!empty($client['snow_level'])&&$client['snow_level']=='Avanzado'?'selected':''}}>Avanzado</option>
+                        <option value="Experto" {{!empty($client['snow_level'])&&$client['snow_level']=='Experto'?'selected':''}}>Experto</option>
+                    </select>
                     <label for="snow_level">nivel de SNOW</label>
                 </div>
-                <div class="col s4 input-field">
-                    <input type="text" id="snow_front" value="{{!empty($client['snow_front'])?$client['snow_front']:''}}">
+                <div class="col s3 input-field">
+                    <select id="snow_front">
+                        <option value="" selected>Selecciona</option>
+                        <option value="Diestro" {{!empty($client['snow_front'])&&$client['snow_front']=='Diestro'?'selected':''}}>Diestro</option>
+                        <option value="Zurdo" {{!empty($client['snow_front'])&&$client['snow_front']=='Zurdo'?'selected':''}}>Zurdo</option>
+                    </select>
                     <label for="snow_front">Diestro/Zurdo SNOW</label>
                 </div>
-                <div class="col s12 padding">
+                <div class="col s3">
+                    <select id="colaborators">
+                        <option value="" selected>Sin Colaborador</option>
+                        @if(!empty($colaborators))
+                            @foreach($colaborators as $colaborator)
+                                <option value="{{$colaborator['id']}}" {{!empty($client['colaborator_id'])&&$client['colaborator_id']==$colaborator['id']?'selected':''}}>{{$colaborator['name']}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="file-field input-field col s3">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Cara A</span>
+                            <input type="file" id="dnia">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="file-field input-field col s3">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Cara B</span>
+                            <input type="file" id="dnib">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s3">
+                    <p>Firma</p>
+                    {{$qr}}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col s12 right-align">
                     <a href="javascript:;" class="btn" id="saveClient">Guardar</a>
                 </div>
-            </div>
-            <div class="file-field input-field col s3">
-                <div class="col s6 input-field">
-                    <label for="image_a"></label>
-                    <input type="file" id="image_a" name="image_a">
-                </div>
-                <div class="btn">
-                    <span>DNI CARA A</span>
-                    <input type="file" id="cara_a" name="cara_a">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
-            <div class="file-field input-field col s3">
-                <div class="col s6 input-field">
-                    <label for="image_b"></label>
-                    <input type="file" id="image_b" name="image_b">
-                </div>
-                <div class="btn">
-                    <span>DNI CARA B</span>
-                    <input type="file" id="cara_b" name="cara_b">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
-            <div class="col s12 firma visitante_1">
-                <div id="signature-pad" class="signature-pad">
-                    <canvas id="signature"></canvas>
-                    <button id="clear-button"><i class="material-icons">clear</i></button>
-                </div>
-            </div>
-            <div class="col s12 center-align">
-                <button class="btn waves-effect waves-light" id="registrar">Aceptar y contnuar</button>
             </div>		
         </div>  
     </div>
@@ -138,6 +163,9 @@
             var ski_level = $('#ski_level').val();
             var snow_level = $('#snow_level').val();
             var snow_front = $('#snow_front').val();
+            var dnia = $('#dnia').prop('files')[0];
+            var dnib = $('#dnib').prop('files')[0];
+            var colaborator = $('#colaborators').val();
             // Crear un objeto FormData para enviar los datos
             var formData = new FormData();
             formData.append('id', id);
@@ -154,10 +182,9 @@
             formData.append('ski_level', ski_level);
             formData.append('snow_level', snow_level);
             formData.append('snow_front', snow_front);
-
-            // Agregar las imágenes "cara A" y "cara B al formulario
-            formData.append('caraa', $('#caraa')[0].files[0]);
-            formData.append('carab', $('#carab')[0].files[0]);
+            formData.append('dnia', dnia);
+            formData.append('dnib', dnib);
+            formData.append('colaborator', colaborator);
 
             formData.append('_token', '{{ csrf_token() }}');
 
