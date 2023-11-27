@@ -80,7 +80,7 @@
                     <select id="client" multiple>
                         @if(!empty($clients))
                             @php
-                                $rent['clients'] = explode(',',$rent['clients']);
+                                $rent['clients'] = !empty($rent['clients'])?explode(',',$rent['clients']):[];
                             @endphp
                             @foreach($clients as $_client)
                                 <option value="{{$_client->id}}" {{!empty($rent['clients']) && in_array($_client->id,$rent['clients']) ? 'selected' : ''}}>{{$_client->name}}</option>
