@@ -118,4 +118,8 @@ class HomeController extends Controller
         $admin['section'] = 'thanks';
         return view('front.thanks',['admin' => $admin]);
     }
+    public function factura(){
+        $admin['section'] = 'factura';
+        return view('front.factura',['admin' => $admin]);
+    }
 }

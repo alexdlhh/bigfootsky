@@ -25,6 +25,7 @@ Route::get('/reserva-step2', [HomeController::class, 'step2'])->name('step2');
 Route::post('/guardar-step2', [HomeController::class, 'saveStep2'])->name('saveStep2');
 //ultimo paso, confirmamos la reserva y mostramos el resumen junto a un mensaje de gracias
 Route::get('/reserva-thanks', [HomeController::class, 'thanks'])->name('thanks');
+Route::get('/factura', [HomeController::class, 'factura'])->name('factura');
 
 //vas a tener que crear 4 funciones nuevas en HomeController, 2 que van a ir a una view y otras 2 que son para guardar los datos en bbdd
 
