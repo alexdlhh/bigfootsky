@@ -13,6 +13,7 @@ use App\Models\Client;
 use App\Models\Course;
 use App\Models\Particular;
 use App\Models\Teacher;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 class ClientController extends Controller
@@ -104,7 +105,8 @@ class ClientController extends Controller
     public function create($id = null){
         $client = Client::find($id);
         $admin['section'] = 'clients';
-        return view('admin.editClient', compact('admin', 'client'));
+        $qr = QrCode::size(500)->generate('https://bigfootski.es/gestion/firma/'.$client->id);
+        return view('admin.editClient', compact('admin', 'client','qr'));
     }
 
     /**
@@ -133,6 +135,18 @@ class ClientController extends Controller
             $client->ski_level = $request->ski_level;
             $client->snow_level = $request->snow_level;
             $client->snow_front = $request->snow_front;
+            if(!empty($request->dnia)){
+                $file_dnia = $request->dnia;
+                $ruta = public_path() . "/dnis/" . $file_dnia->getClientOriginalName();
+                $file_dnia->move(public_path() . "/dnis/", $file_dnia->getClientOriginalName());
+                $client->dnia = $ruta;
+            }
+            if(!empty($request->dnib)){
+                $file_dnib = $request->dnib;
+                $ruta = public_path() . "/dnis/" . $file_dnib->getClientOriginalName();
+                $file_dnib->move(public_path() . "/dnis/", $file_dnib->getClientOriginalName());
+                $client->dnib = $ruta;
+            }
             $client->save();
         }catch(\Exception $e){
             return response()->json(['success' => false, 'message' => 'Error al guardar el cliente']);

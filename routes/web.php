@@ -26,7 +26,8 @@ Route::post('/guardar-step2', [HomeController::class, 'saveStep2'])->name('saveS
 //ultimo paso, confirmamos la reserva y mostramos el resumen junto a un mensaje de gracias
 Route::get('/reserva-thanks', [HomeController::class, 'thanks'])->name('thanks');
 Route::get('/syncRent/{id}', [HomeController::class, 'syncRent'])->name('syncRent');
-//vas a tener que crear 4 funciones nuevas en HomeController, 2 que van a ir a una view y otras 2 que son para guardar los datos en bbdd
+Route::get('/firma/{id}', [HomeController::class, 'firma'])->name('firma');
+Route::post('/guardar-firma', [HomeController::class, 'saveFirma'])->name('saveFirma');
 
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/register', [HomeController::class, 'register'])->name('register');
