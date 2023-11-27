@@ -83,3 +83,26 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     font-weight: bold !important;
     color: #1477c9 !important;
 }
+#observacionestotal{
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: #1477c9 !important;
+}
+.textinfo{
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: #1477c9 !important;
+    margin-top: 50px !important;
+    margin-left: 0px !important;
+}
+.textimportant{
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: whitesmoke !important;
+    background-color: #666 !important;
+}
+#imagelogo{
+    height: 250px !important;
+    width: 250px !important;
+    margin-left: 50px !important;
+}

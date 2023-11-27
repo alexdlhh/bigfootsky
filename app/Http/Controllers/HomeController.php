@@ -120,6 +120,11 @@ class HomeController extends Controller
         $admin['section'] = 'thanks';
         return view('front.thanks',['admin' => $admin]);
     }
+<<<<<<< HEAD
+    public function factura(){
+        $admin['section'] = 'factura';
+        return view('front.factura',['admin' => $admin]);
+=======
 
     public function syncRent($id){
         $admin['section'] = 'syncRent';
@@ -156,5 +161,6 @@ class HomeController extends Controller
         }catch(\Exception $e){
             return response()->json(["success"=>false,'error' => $e->getMessage()], 500);
         }
+>>>>>>> 285e5577de4e4184e5bd06f12f6b3e877f8827b9
     }
 }
